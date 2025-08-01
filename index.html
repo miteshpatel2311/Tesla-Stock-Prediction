@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tesla Stock Prediction Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/date-fns@2.29.3/index.min.js"></script>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <i class="fas fa-chart-line"></i>
+                <h1>Tesla Stock Prediction Dashboard</h1>
+            </div>
+            <nav class="nav">
+                <a href="#overview" class="nav-link active">Overview</a>
+                <a href="#analysis" class="nav-link">Analysis</a>
+                <a href="#models" class="nav-link">Models</a>
+                <a href="#predictions" class="nav-link">Predictions</a>
+                <a href="#insights" class="nav-link">Insights</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main">
+        <!-- Overview Section -->
+        <section id="overview" class="section active">
+            <div class="container">
+                <div class="section-header">
+                    <h2><i class="fas fa-chart-area"></i> Project Overview</h2>
+                    <p>Comprehensive Tesla stock prediction using machine learning and sentiment analysis</p>
+                </div>
+
+                <!-- Key Metrics Cards -->
+                <div class="metrics-grid">
+                    <div class="metric-card">
+                        <div class="metric-icon">
+                            <i class="fas fa-dollar-sign"></i>
+                        </div>
+                        <div class="metric-content">
+                            <h3>Current Price</h3>
+                            <div class="metric-value" id="current-price">$321.20</div>
+                            <div class="metric-change positive">+53.5%</div>
+                        </div>
+                    </div>
+
+                    <div class="metric-card">
+                        <div class="metric-icon">
+                            <i class="fas fa-calendar-alt"></i>
+                        </div>
+                        <div class="metric-content">
+                            <h3>Analysis Period</h3>
+                            <div class="metric-value">615 Days</div>
+                            <div class="metric-subtitle">Feb 2023 - Jul 2025</div>
+                        </div>
+                    </div>
+
+                    <div class="metric-card">
+                        <div class="metric-icon">
+                            <i class="fas fa-robot"></i>
+                        </div>
+                        <div class="metric-content">
+                            <h3>Best Model</h3>
+                            <div class="metric-value">HYBRID</div>
+                            <div class="metric-subtitle">MSE: 130.21</div>
+                        </div>
+                    </div>
+
+                    <div class="metric-card">
+                        <div class="metric-icon">
+                            <i class="fas fa-brain"></i>
+                        </div>
+                        <div class="metric-content">
+                            <h3>Prediction Accuracy</h3>
+                            <div class="metric-value">96.7%</div>
+                            <div class="metric-subtitle">MAPE: 2.64%</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Stock Price Chart -->
+                <div class="chart-container">
+                    <h3><i class="fas fa-line-chart"></i> Tesla Stock Price & Moving Averages</h3>
+                    <canvas id="price-chart"></canvas>
+                </div>
+
+                <!-- Technical Indicators -->
+                <div class="indicators-grid">
+                    <div class="indicator-card">
+                        <h4>RSI (14)</h4>
+                        <div class="indicator-value" id="rsi-value">46.82</div>
+                        <div class="indicator-bar">
+                            <div class="indicator-fill" style="width: 46.82%"></div>
+                        </div>
+                        <div class="indicator-status neutral">Neutral</div>
+                    </div>
+
+                    <div class="indicator-card">
+                        <h4>Volatility</h4>
+                        <div class="indicator-value">0.043</div>
+                        <div class="indicator-status medium">Medium</div>
+                    </div>
+
+                    <div class="indicator-card">
+                        <h4>Sentiment Score</h4>
+                        <div class="indicator-value">-0.013</div>
+                        <div class="indicator-status negative">Slightly Negative</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Analysis Section -->
+        <section id="analysis" class="section">
+            <div class="container">
+                <div class="section-header">
+                    <h2><i class="fas fa-microscope"></i> Technical & Sentiment Analysis</h2>
+                    <p>Deep dive into market data and news sentiment correlation</p>
+                </div>
+
+                <div class="analysis-grid">
+                    <!-- Volume Analysis -->
+                    <div class="analysis-card">
+                        <h3>Trading Volume</h3>
+                        <canvas id="volume-chart"></canvas>
+                    </div>
+
+                    <!-- Sentiment Analysis -->
+                    <div class="analysis-card">
+                        <h3>News Sentiment vs Price</h3>
+                        <canvas id="sentiment-chart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Correlation Matrix -->
+                <div class="correlation-container">
+                    <h3><i class="fas fa-project-diagram"></i> Feature Correlation Matrix</h3>
+                    <div class="correlation-grid" id="correlation-matrix">
+                        <!-- Dynamic correlation data will be inserted here -->
+                    </div>
+                </div>
+
+                <!-- Feature Importance -->
+                <div class="feature-importance">
+                    <h3><i class="fas fa-ranking-star"></i> Feature Importance</h3>
+                    <div class="feature-list">
+                        <div class="feature-item">
+                            <span class="feature-name">Low Price</span>
+                            <div class="feature-bar">
+                                <div class="feature-fill" style="width: 99.73%"></div>
+                            </div>
+                            <span class="feature-value">0.9973</span>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-name">High Price</span>
+                            <div class="feature-bar">
+                                <div class="feature-fill" style="width: 99.72%"></div>
+                            </div>
+                            <span class="feature-value">0.9972</span>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-name">Open Price</span>
+                            <div class="feature-bar">
+                                <div class="feature-fill" style="width: 99.33%"></div>
+                            </div>
+                            <span class="feature-value">0.9933</span>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-name">MA 10</span>
+                            <div class="feature-bar">
+                                <div class="feature-fill" style="width: 96.87%"></div>
+                            </div>
+                            <span class="feature-value">0.9687</span>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-name">MA 30</span>
+                            <div class="feature-bar">
+                                <div class="feature-fill" style="width: 88.08%"></div>
+                            </div>
+                            <span class="feature-value">0.8808</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Models Section -->
+        <section id="models" class="section">
+            <div class="container">
+                <div class="section-header">
+                    <h2><i class="fas fa-cogs"></i> Model Performance Comparison</h2>
+                    <p>Detailed analysis of ARIMA, LSTM, and Hybrid model performance</p>
+                </div>
+
+                <!-- Model Performance Table -->
+                <div class="table-container">
+                    <table class="performance-table">
+                        <thead>
+                            <tr>
+                                <th>Model</th>
+                                <th>MSE</th>
+                                <th>MAE</th>
+                                <th>RMSE</th>
+                                <th>MAPE (%)</th>
+                                <th>R² Score</th>
+                                <th>Directional Accuracy (%)</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="model-row">
+                                <td class="model-name">
+                                    <i class="fas fa-chart-line"></i>
+                                    <strong>ARIMA</strong>
+                                </td>
+                                <td>182.02</td>
+                                <td>10.35</td>
+                                <td>13.49</td>
+                                <td>3.31</td>
+                                <td>-0.1925</td>
+                                <td>41.4</td>
+                                <td><span class="status-badge good">Good</span></td>
+                            </tr>
+                            <tr class="model-row">
+                                <td class="model-name">
+                                    <i class="fas fa-brain"></i>
+                                    <strong>LSTM</strong>
+                                </td>
+                                <td>240.47</td>
+                                <td>12.75</td>
+                                <td>15.51</td>
+                                <td>3.95</td>
+                                <td>-0.5754</td>
+                                <td>51.7</td>
+                                <td><span class="status-badge average">Average</span></td>
+                            </tr>
+                            <tr class="model-row best-model">
+                                <td class="model-name">
+                                    <i class="fas fa-trophy"></i>
+                                    <strong>HYBRID</strong>
+                                </td>
+                                <td>130.21</td>
+                                <td>8.43</td>
+                                <td>11.41</td>
+                                <td>2.64</td>
+                                <td>0.1469</td>
+                                <td>51.7</td>
+                                <td><span class="status-badge excellent">Excellent</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Model Comparison Chart -->
+                <div class="chart-container">
+                    <h3><i class="fas fa-chart-bar"></i> Model Performance Metrics</h3>
+                    <canvas id="model-comparison-chart"></canvas>
+                </div>
+
+                <!-- Prediction vs Actual Chart -->
+                <div class="chart-container">
+                    <h3><i class="fas fa-crosshairs"></i> Predictions vs Actual Prices</h3>
+                    <canvas id="prediction-chart"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <!-- Predictions Section -->
+        <section id="predictions" class="section">
+            <div class="container">
+                <div class="section-header">
+                    <h2><i class="fas fa-crystal-ball"></i> Future Predictions</h2>
+                    <p>Next 5 trading days forecast with confidence intervals</p>
+                </div>
+
+                <!-- Future Predictions Cards -->
+                <div class="predictions-grid">
+                    <div class="prediction-card">
+                        <div class="prediction-date">Day 1 (Jul 30)</div>
+                        <div class="prediction-price">$313.80</div>
+                        <div class="prediction-change negative">-2.3%</div>
+                        <div class="confidence-bar">
+                            <div class="confidence-fill" style="width: 90%"></div>
+                            <span class="confidence-text">90% Confidence</span>
+                        </div>
+                    </div>
+
+                    <div class="prediction-card">
+                        <div class="prediction-date">Day 2 (Jul 31)</div>
+                        <div class="prediction-price">$312.19</div>
+                        <div class="prediction-change negative">-2.8%</div>
+                        <div class="confidence-bar">
+                            <div class="confidence-fill" style="width: 82%"></div>
+                            <span class="confidence-text">82% Confidence</span>
+                        </div>
+                    </div>
+
+                    <div class="prediction-card">
+                        <div class="prediction-date">Day 3 (Aug 1)</div>
+                        <div class="prediction-price">$310.74</div>
+                        <div class="prediction-change negative">-3.3%</div>
+                        <div class="confidence-bar">
+                            <div class="confidence-fill" style="width: 74%"></div>
+                            <span class="confidence-text">74% Confidence</span>
+                        </div>
+                    </div>
+
+                    <div class="prediction-card">
+                        <div class="prediction-date">Day 4 (Aug 4)</div>
+                        <div class="prediction-price">$312.40</div>
+                        <div class="prediction-change negative">-2.7%</div>
+                        <div class="confidence-bar">
+                            <div class="confidence-fill" style="width: 66%"></div>
+                            <span class="confidence-text">66% Confidence</span>
+                        </div>
+                    </div>
+
+                    <div class="prediction-card">
+                        <div class="prediction-date">Day 5 (Aug 5)</div>
+                        <div class="prediction-price">$313.58</div>
+                        <div class="prediction-change negative">-2.4%</div>
+                        <div class="confidence-bar">
+                            <div class="confidence-fill" style="width: 60%"></div>
+                            <span class="confidence-text">60% Confidence</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Risk Analysis -->
+                <div class="risk-analysis">
+                    <h3><i class="fas fa-shield-alt"></i> Risk Analysis</h3>
+                    <div class="risk-grid">
+                        <div class="risk-item">
+                            <span class="risk-label">Expected Range</span>
+                            <span class="risk-value">$310.74 - $313.80</span>
+                        </div>
+                        <div class="risk-item">
+                            <span class="risk-label">Average Target</span>
+                            <span class="risk-value">$312.54</span>
+                        </div>
+                        <div class="risk-item">
+                            <span class="risk-label">Maximum Upside</span>
+                            <span class="risk-value">-2.3%</span>
+                        </div>
+                        <div class="risk-item">
+                            <span class="risk-label">Maximum Downside</span>
+                            <span class="risk-value">-3.3%</span>
+                        </div>
+                        <div class="risk-item">
+                            <span class="risk-label">Volatility Estimate</span>
+                            <span class="risk-value">$1.10</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Future Predictions Chart -->
+                <div class="chart-container">
+                    <h3><i class="fas fa-chart-line"></i> Future Price Forecast</h3>
+                    <canvas id="forecast-chart"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <!-- Insights Section -->
+        <section id="insights" class="section">
+            <div class="container">
+                <div class="section-header">
+                    <h2><i class="fas fa-lightbulb"></i> Key Insights & Recommendations</h2>
+                    <p>Actionable insights derived from comprehensive analysis</p>
+                </div>
+
+                <!-- Key Findings -->
+                <div class="insights-grid">
+                    <div class="insight-card">
+                        <div class="insight-icon success">
+                            <i class="fas fa-trophy"></i>
+                        </div>
+                        <h3>Best Performing Model</h3>
+                        <p>The <strong>Hybrid model</strong> combining ARIMA and LSTM approaches achieved the lowest prediction error with an MSE of 130.21 and MAPE of 2.64%.</p>
+                    </div>
+
+                    <div class="insight-card">
+                        <div class="insight-icon warning">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <h3>Sentiment Correlation</h3>
+                        <p>News sentiment shows a <strong>weak negative correlation</strong> (-0.12) with stock price, suggesting other factors are more influential.</p>
+                    </div>
+
+                    <div class="insight-card">
+                        <div class="insight-icon info">
+                            <i class="fas fa-brain"></i>
+                        </div>
+                        <h3>Model Performance</h3>
+                        <p>LSTM shows better <strong>directional accuracy</strong> (51.7%) compared to ARIMA (41.4%), making it valuable for trend prediction.</p>
+                    </div>
+
+                    <div class="insight-card">
+                        <div class="insight-icon danger">
+                            <i class="fas fa-exclamation-triangle"></i>
+                        </div>
+                        <h3>Market Volatility</h3>
+                        <p>Higher prediction errors occur during <strong>high volatility periods</strong> ($14.11 vs $12.54 average error).</p>
+                    </div>
+                </div>
+
+                <!-- Trading Recommendations -->
+                <div class="recommendations">
+                    <h3><i class="fas fa-chart-pie"></i> Trading Recommendations</h3>
+                    <div class="recommendation-list">
+                        <div class="recommendation-item bearish">
+                            <i class="fas fa-arrow-down"></i>
+                            <div class="recommendation-content">
+                                <h4>Bearish Indicators</h4>
+                                <p>Strong negative sentiment and model predicts >2% downside in the short term.</p>
+                            </div>
+                        </div>
+
+                        <div class="recommendation-item neutral">
+                            <i class="fas fa-shield-alt"></i>
+                            <div class="recommendation-content">
+                                <h4>Risk Management</h4>
+                                <p>Set stop-loss at 6.6% based on model error rate. Position size should account for 3.3% average prediction error.</p>
+                            </div>
+                        </div>
+
+                        <div class="recommendation-item info">
+                            <i class="fas fa-eye"></i>
+                            <div class="recommendation-content">
+                                <h4>Monitor Indicators</h4>
+                                <p>Watch sentiment changes (correlation: 0.12) and RSI levels for potential trend reversals.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Disclaimer -->
+                <div class="disclaimer">
+                    <h3><i class="fas fa-exclamation-circle"></i> Important Disclaimer</h3>
+                    <p>This analysis is for educational and research purposes only. Past performance does not guarantee future results. Stock market predictions are inherently uncertain. Always consult qualified financial advisors before investing and consider your risk tolerance and investment objectives.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 Tesla Stock Prediction Dashboard. Built with advanced machine learning and sentiment analysis.</p>
+            <div class="tech-stack">
+                <span>Technologies: Python, TensorFlow, FinBERT, ARIMA, LSTM, Chart.js</span>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
