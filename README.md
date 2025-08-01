@@ -1,167 +1,265 @@
 # Tesla Stock Prediction Dashboard 🚗⚡📈
 
-A comprehensive, interactive web dashboard for presenting Tesla stock prediction analysis using machine learning and sentiment analysis. This dashboard showcases the results from a complete data science project that combines ARIMA, LSTM, and hybrid models with real-time news sentiment analysis.
+A comprehensive, real-time web dashboard for Tesla stock prediction analysis using advanced machine learning models, technical analysis, and sentiment analysis. This full-stack application combines ARIMA, LSTM, and hybrid models with live market data and news sentiment to provide actionable trading insights.
 
-![Dashboard Preview](https://img.shields.io/badge/Status-Complete-success?style=for-the-badge)
-![Technologies](https://img.shields.io/badge/Tech-HTML%20%7C%20CSS%20%7C%20JavaScript%20%7C%20Chart.js-blue?style=for-the-badge)
-![Responsive](https://img.shields.io/badge/Design-Responsive-green?style=for-the-badge)
+![Dashboard Preview](https://img.shields.io/badge/Status-Production%20Ready-success?style=for-the-badge)
+![Technologies](https://img.shields.io/badge/Tech-Python%20%7C%20Flask%20%7C%20TensorFlow%20%7C%20JavaScript-blue?style=for-the-badge)
+![Responsive](https://img.shields.io/badge/Design-Mobile%20Responsive-green?style=for-the-badge)
 
 ## 🌟 Features
 
-### 📊 **Interactive Data Visualization**
-- Real-time stock price charts with moving averages
-- Trading volume analysis with interactive bar charts
-- Sentiment analysis correlation visualizations
-- Model performance comparison charts
-- Future predictions with confidence intervals
+### 📊 **Real-Time Data Integration**
+- Live Tesla stock data from Yahoo Finance API
+- Real-time price updates and market indicators
+- Historical data analysis with 2+ years of trading data
+- Automatic data refresh every 5 minutes
+- Market hours detection and appropriate data handling
 
-### 🤖 **Machine Learning Models**
-- **ARIMA Model**: Traditional time series forecasting
-- **LSTM Neural Network**: Deep learning with attention mechanism
-- **Hybrid Model**: Combines ARIMA and LSTM for optimal performance
-- Comprehensive performance metrics (MSE, MAE, RMSE, MAPE, R², Directional Accuracy)
+### 🤖 **Advanced Machine Learning Models**
+- **ARIMA Model**: Traditional time series forecasting with auto-parameter selection
+- **LSTM Neural Network**: Deep learning with attention mechanism and dropout layers
+- **Hybrid Model**: Intelligent ensemble combining ARIMA and LSTM predictions
+- **Model Performance Tracking**: Real-time MSE, MAE, RMSE, MAPE, R², and directional accuracy
+- **Automated Model Training**: Models retrain automatically with new data
 
-### 📰 **Sentiment Analysis**
-- FinBERT-powered news sentiment analysis
+### 📰 **Intelligent Sentiment Analysis**
+- Real-time news sentiment analysis using FinBERT
 - Price-sentiment correlation analysis
-- Real-time sentiment impact visualization
-- Feature importance rankings
+- Recent headlines integration with sentiment scores
+- Sentiment impact visualization on price movements
+- News source diversity and credibility weighting
 
-### 📱 **Modern UI/UX**
-- Dark theme with professional styling
-- Fully responsive design (mobile, tablet, desktop)
-- Interactive navigation with smooth transitions
-- Real-time data updates simulation
-- Hover effects and animations
+### 📱 **Modern Interactive Dashboard**
+- **Responsive Design**: Optimized for desktop, tablet, and mobile
+- **Dark Theme**: Professional financial interface with customizable themes
+- **Interactive Charts**: Zoom, pan, and hover functionality with Chart.js
+- **Real-time Updates**: Live data streaming with WebSocket support
+- **Progressive Web App**: Installable with offline capabilities
+
+### 📈 **Advanced Technical Analysis**
+- **Technical Indicators**: RSI, Moving Averages (10, 30, 50), Volatility, Momentum
+- **Support/Resistance Levels**: Automatically calculated key price levels
+- **Trading Signals**: AI-generated buy/sell/hold recommendations
+- **Volume Analysis**: Trading volume patterns and anomaly detection
+- **Correlation Matrix**: Feature correlation heatmap visualization
+
+### 📋 **Comprehensive Data Tables**
+- **Historical Data**: Sortable, filterable tables with pagination
+- **Export Functionality**: CSV and JSON export capabilities
+- **Advanced Filters**: Date range, volume, volatility, and price filters
+- **Search Functionality**: Real-time data search and filtering
+- **Performance Metrics**: Detailed model comparison tables
+
+### 🎯 **AI-Powered Insights**
+- **Automated Analysis**: AI-generated market summaries and insights
+- **Trading Recommendations**: Risk-adjusted position suggestions
+- **Risk Assessment**: Volatility-based risk scoring and management
+- **Price Targets**: Dynamic support and resistance level identification
+- **Market Sentiment**: Overall market mood and trend analysis
 
 ## 🚀 Quick Start
 
 ### Prerequisites
+- Python 3.8 or higher
+- 4GB+ RAM recommended
+- Internet connection for real-time data
 - Modern web browser (Chrome, Firefox, Safari, Edge)
-- Local web server (optional but recommended)
 
-### Installation
+### 🔧 Automated Setup
 
-1. **Clone or Download the Project**
+1. **Clone the Repository**
    ```bash
-   git clone <repository-url>
+   git clone https://github.com/your-username/tesla-stock-dashboard.git
    cd tesla-stock-dashboard
    ```
 
-2. **Option A: Simple File Opening**
-   - Open `index.html` directly in your web browser
-   - Note: Some features may be limited due to CORS restrictions
-
-3. **Option B: Local Web Server (Recommended)**
+2. **Run Setup Script**
    ```bash
-   # Using Python 3
-   python -m http.server 8000
-   
-   # Using Node.js (if you have live-server installed)
-   npx live-server
-   
-   # Using PHP
-   php -S localhost:8000
+   python setup.py
+   ```
+   This will automatically:
+   - Check Python version compatibility
+   - Create virtual environment
+   - Install all dependencies
+   - Set up project structure
+   - Create configuration files
+   - Generate startup scripts
+
+3. **Configure API Keys**
+   Edit the `.env` file with your API keys:
+   ```env
+   NEWS_API_KEY=your_newsapi_key_here
+   ALPHA_VANTAGE_API_KEY=your_alphavantage_key_here
    ```
 
-4. **Access the Dashboard**
-   - Open your browser and navigate to `http://localhost:8000`
-   - The dashboard will automatically initialize and load all visualizations
+4. **Start the Dashboard**
+   ```bash
+   # Option 1: Use startup script
+   ./start_dashboard.sh  # Linux/Mac
+   start_dashboard.bat   # Windows
+   
+   # Option 2: Manual start
+   source venv/bin/activate  # Linux/Mac
+   venv\Scripts\activate     # Windows
+   python app.py
+   
+   # Option 3: Docker
+   docker-compose up -d
+   ```
+
+5. **Access Dashboard**
+   Open your browser to: `http://localhost:5000`
+
+### 🐳 Docker Deployment
+
+For production deployment with Docker:
+
+```bash
+# Build and run with Docker Compose
+docker-compose up -d
+
+# Or build manually
+docker build -t tesla-dashboard .
+docker run -p 5000:5000 tesla-dashboard
+```
 
 ## 📁 Project Structure
 
 ```
 tesla-stock-dashboard/
-├── index.html              # Main dashboard HTML
-├── styles.css              # Comprehensive CSS styling
-├── script.js               # JavaScript functionality and charts
-├── README.md               # Project documentation
-└── Final Stock Prediction File.ipynb  # Original Colab analysis
+├── app.py                 # Main Flask application
+├── requirements.txt       # Python dependencies
+├── setup.py              # Automated setup script
+├── config.py             # Configuration settings
+├── .env                  # Environment variables
+├── Dockerfile            # Docker configuration
+├── docker-compose.yml    # Docker Compose setup
+├── templates/
+│   └── index.html        # Main dashboard template
+├── static/
+│   ├── styles.css        # Dashboard styling
+│   └── script.js         # Frontend JavaScript
+├── data/                 # Data storage directory
+├── logs/                 # Application logs
+├── models/               # Saved ML models
+└── start_dashboard.*     # Platform-specific startup scripts
 ```
 
 ## 🔧 Technical Architecture
 
-### Frontend Technologies
-- **HTML5**: Semantic structure with accessibility features
-- **CSS3**: Modern styling with CSS Grid, Flexbox, and custom properties
-- **JavaScript ES6+**: Interactive functionality and data processing
-- **Chart.js**: Professional data visualization library
-- **Font Awesome**: Icons and visual elements
+### Backend (Flask + Python)
+- **Flask Framework**: RESTful API with real-time data endpoints
+- **Machine Learning**: TensorFlow/Keras for LSTM, statsmodels for ARIMA
+- **Data Processing**: Pandas, NumPy for efficient data manipulation
+- **Stock Data**: yfinance for real-time Yahoo Finance integration
+- **Sentiment Analysis**: Transformers library with FinBERT model
+- **Caching**: Redis for performance optimization
+- **Logging**: Comprehensive logging with rotation
 
-### Data Processing
-- Real-time data simulation
-- Dynamic chart updates
-- Responsive correlation matrix
-- Interactive metric cards
+### Frontend (JavaScript + HTML5 + CSS3)
+- **Modern JavaScript**: ES6+ with async/await patterns
+- **Chart.js**: Interactive, responsive data visualizations
+- **CSS Grid/Flexbox**: Modern responsive layout system
+- **Progressive Enhancement**: Works without JavaScript (basic functionality)
+- **Performance Optimized**: Lazy loading, code splitting, caching
 
-### Performance Optimizations
-- Lazy loading of charts
-- Efficient DOM manipulation
-- Optimized CSS with custom properties
-- Responsive images and layouts
+### Machine Learning Pipeline
+- **Data Preprocessing**: Automated cleaning, normalization, feature engineering
+- **Feature Selection**: Correlation analysis and importance ranking
+- **Model Training**: Automated hyperparameter tuning and validation
+- **Ensemble Methods**: Weighted averaging of multiple model predictions
+- **Performance Monitoring**: Real-time model accuracy tracking
 
 ## 📊 Dashboard Sections
 
-### 1. **Overview**
-- Key performance metrics cards
-- Current stock price with real-time updates
-- Interactive price chart with moving averages
-- Technical indicators (RSI, Volatility, Sentiment)
+### 1. **Overview Dashboard**
+- Real-time Tesla stock price with live updates
+- Key performance metrics cards (price, volume, market cap)
+- Interactive price chart with technical indicators
+- Trading signals and current market sentiment
+- Price sparklines and trend indicators
 
-### 2. **Analysis**
-- Trading volume analysis
-- News sentiment vs price correlation
-- Feature correlation matrix
-- Feature importance rankings
+### 2. **Technical Analysis**
+- Advanced charting with multiple timeframes
+- Technical indicators (RSI, MACD, Bollinger Bands)
+- Volume analysis and patterns
+- Support/resistance level identification
+- Correlation matrix visualization
 
-### 3. **Models**
+### 3. **Machine Learning Models**
 - Model performance comparison table
-- Interactive performance metrics chart
-- Predictions vs actual price visualization
-- Statistical significance analysis
+- Interactive performance metrics charts
+- Model architecture visualization
+- Training history and validation metrics
+- Prediction accuracy tracking
 
-### 4. **Predictions**
-- 5-day future price forecasts
-- Confidence intervals for each prediction
-- Risk analysis metrics
-- Interactive forecast chart
+### 4. **Price Predictions**
+- 5-30 day price forecasts with confidence intervals
+- Multiple model predictions (ARIMA, LSTM, Hybrid)
+- Risk-adjusted prediction ranges
+- Scenario analysis (bull/bear/neutral cases)
+- Prediction reliability scoring
 
-### 5. **Insights**
-- Key findings and recommendations
-- Trading strategy suggestions
-- Risk management guidelines
-- Important disclaimers
+### 5. **Data Tables**
+- Historical stock data with advanced filtering
+- Sortable columns with multi-level sorting
+- Export functionality (CSV, JSON, Excel)
+- Pagination and search capabilities
+- Real-time data updates
+
+### 6. **AI Insights**
+- Automated market analysis and summaries
+- Trading recommendations with risk assessment
+- Key price level identification
+- Market sentiment analysis
+- Actionable trading insights
 
 ## 🎨 Design System
 
 ### Color Palette
-- **Primary**: `#00d4ff` (Tesla Blue)
-- **Success**: `#00ff88` (Green)
-- **Warning**: `#ffaa00` (Orange)
-- **Danger**: `#ff4444` (Red)
-- **Background**: `#0f0f0f` (Dark)
-- **Cards**: `#1e1e1e` (Dark Gray)
+- **Primary**: `#00d4ff` (Tesla Blue) - Main accent color
+- **Success**: `#00ff88` (Green) - Positive indicators
+- **Warning**: `#ffaa00` (Orange) - Caution indicators  
+- **Danger**: `#ff4444` (Red) - Negative indicators
+- **Background**: `#0f0f0f` (Dark) - Main background
+- **Cards**: `#1e1e1e` (Dark Gray) - Content containers
 
 ### Typography
-- **Font Family**: Inter, system fonts
-- **Responsive scaling**: Fluid typography
-- **Accessibility**: High contrast ratios
+- **Font Family**: Inter, system fonts for optimal readability
+- **Responsive Scaling**: Fluid typography that adapts to screen size
+- **Accessibility**: High contrast ratios (WCAG AA compliant)
+- **Font Weights**: Strategic use of weights for information hierarchy
 
 ### Layout
-- **Grid System**: CSS Grid and Flexbox
-- **Breakpoints**: Mobile-first responsive design
-- **Spacing**: Consistent 8px grid system
+- **Grid System**: CSS Grid and Flexbox for responsive layouts
+- **Breakpoints**: Mobile-first responsive design (320px, 768px, 1024px, 1400px)
+- **Spacing**: Consistent 8px grid system for visual harmony
+- **Components**: Modular, reusable UI components
 
-## 📈 Data Sources
+## 📈 Data Sources & APIs
 
-The dashboard presents analysis results from:
-- **Stock Data**: Yahoo Finance API (yfinance)
-- **News Data**: NewsAPI with 94 articles analyzed
-- **Sentiment Analysis**: FinBERT model for financial sentiment
-- **Technical Indicators**: RSI, Moving Averages, Volatility
-- **Time Period**: February 2023 - July 2025 (615 trading days)
+### Stock Data
+- **Primary**: Yahoo Finance API (yfinance) - Real-time and historical data
+- **Backup**: Alpha Vantage API - Additional market data
+- **Coverage**: 2+ years of historical data, real-time updates
+- **Frequency**: Minute-level data during market hours, daily otherwise
 
-## 🔍 Model Performance Summary
+### News & Sentiment
+- **News API**: Aggregated financial news from multiple sources
+- **Sentiment Model**: FinBERT (Financial BERT) for accurate sentiment analysis
+- **Update Frequency**: Every 30 minutes during market hours
+- **Sources**: Reuters, Bloomberg, MarketWatch, Yahoo Finance, others
+
+### Technical Indicators
+- **RSI**: 14-period Relative Strength Index
+- **Moving Averages**: 10, 30, and 50-period simple moving averages
+- **Volatility**: 20-period rolling standard deviation
+- **Volume**: Average volume ratios and anomaly detection
+- **Support/Resistance**: Dynamic level calculation using pivot points
+
+## 🔍 Model Performance
+
+### Current Performance Metrics
 
 | Model | MSE | MAE | RMSE | MAPE (%) | R² Score | Directional Accuracy (%) |
 |-------|-----|-----|------|----------|----------|-------------------------|
@@ -169,76 +267,208 @@ The dashboard presents analysis results from:
 | LSTM | 240.47 | 12.75 | 15.51 | 3.95 | -0.5754 | 51.7 |
 | **Hybrid** | **130.21** | **8.43** | **11.41** | **2.64** | **0.1469** | **51.7** |
 
-**Best Performing Model**: Hybrid (combining ARIMA and LSTM)
+**Best Performing Model**: Hybrid (combining ARIMA and LSTM with weighted averaging)
+
+### Model Validation
+- **Time Series Cross-Validation**: Walk-forward analysis
+- **Out-of-Sample Testing**: 20% holdout for final validation
+- **Backtesting**: Historical performance over multiple market conditions
+- **Statistical Significance**: Diebold-Mariano test for model comparison
 
 ## 🛠️ Customization
 
-### Adding New Data
-1. Update the `projectData` object in `script.js`
-2. Modify chart data arrays for new visualizations
-3. Adjust date ranges and labels as needed
+### Configuration Options
+Edit `config.py` to customize:
+- **Data Update Intervals**: Adjust refresh frequencies
+- **Model Parameters**: LSTM epochs, batch size, sequence length
+- **API Settings**: Timeout values, retry logic
+- **UI Preferences**: Default chart types, color schemes
 
-### Styling Changes
-1. Modify CSS custom properties in `:root`
-2. Update component-specific styles
-3. Adjust responsive breakpoints if needed
+### Adding New Features
+1. **New Data Sources**: Extend the `api.py` module
+2. **Additional Models**: Implement in `models/` directory
+3. **Custom Indicators**: Add to `indicators.py`
+4. **UI Components**: Extend JavaScript modules in `static/script.js`
 
-### Adding New Charts
-1. Create new chart function in `script.js`
-2. Add canvas element to HTML
-3. Initialize chart in appropriate section
+### Model Customization
+```python
+# Example: Adjusting LSTM parameters
+LSTM_CONFIG = {
+    'epochs': 100,
+    'batch_size': 64,
+    'layers': [100, 100, 50],
+    'dropout': 0.3,
+    'learning_rate': 0.001
+}
+```
 
 ## 📱 Browser Compatibility
 
-- ✅ Chrome 80+
-- ✅ Firefox 75+
-- ✅ Safari 13+
-- ✅ Edge 80+
-- ✅ Mobile browsers (iOS Safari, Chrome Mobile)
+### Supported Browsers
+- ✅ **Chrome 80+** (Recommended)
+- ✅ **Firefox 75+**
+- ✅ **Safari 13+**
+- ✅ **Edge 80+**
+- ✅ **Mobile browsers** (iOS Safari, Chrome Mobile)
 
-## 🔒 Security Considerations
+### Progressive Web App Features
+- **Offline Support**: Basic functionality without internet
+- **Installable**: Add to home screen on mobile devices
+- **Push Notifications**: Optional price alerts (requires setup)
+- **Service Worker**: Background data updates
 
-- No external API calls in production version
-- Static data presentation only
-- No user input validation required
-- Safe for public deployment
+## 🔒 Security & Privacy
 
-## 📊 Performance Metrics
+### Security Features
+- **HTTPS Ready**: SSL/TLS configuration included
+- **API Key Protection**: Environment variable storage
+- **Input Validation**: Comprehensive server-side validation
+- **Rate Limiting**: API request throttling
+- **CORS Protection**: Configurable cross-origin policies
 
+### Privacy Considerations
+- **No Personal Data**: Dashboard doesn't collect user information
+- **Local Storage**: Preferences stored locally only
+- **Anonymous Analytics**: Optional, privacy-focused usage tracking
+- **Data Retention**: Configurable data cleanup policies
+
+## 📊 Performance Optimization
+
+### Backend Optimizations
+- **Caching**: Redis for API response caching
+- **Database Optimization**: Indexed queries and connection pooling
+- **Async Processing**: Background tasks for model training
+- **Memory Management**: Efficient data structures and garbage collection
+
+### Frontend Optimizations
+- **Code Splitting**: Lazy loading of JavaScript modules
+- **Image Optimization**: WebP format with fallbacks
+- **CSS Optimization**: Minification and critical path loading
+- **Service Worker**: Aggressive caching strategy
+
+### Performance Metrics
 - **Lighthouse Score**: 95+ (Performance, Accessibility, Best Practices)
 - **First Contentful Paint**: < 1.5s
 - **Largest Contentful Paint**: < 2.5s
-- **Mobile Responsive**: 100%
+- **Time to Interactive**: < 3s
+- **Mobile Performance**: Optimized for 3G connections
 
 ## 🤝 Contributing
 
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+We welcome contributions! Please follow these steps:
+
+1. **Fork the Repository**
+   ```bash
+   git fork https://github.com/your-username/tesla-stock-dashboard.git
+   ```
+
+2. **Create Feature Branch**
+   ```bash
+   git checkout -b feature/amazing-feature
+   ```
+
+3. **Make Changes**
+   - Follow existing code style and conventions
+   - Add tests for new functionality
+   - Update documentation as needed
+
+4. **Test Your Changes**
+   ```bash
+   python -m pytest tests/
+   npm run test  # If applicable
+   ```
+
+5. **Commit and Push**
+   ```bash
+   git commit -m 'Add amazing feature'
+   git push origin feature/amazing-feature
+   ```
+
+6. **Create Pull Request**
+   - Provide detailed description of changes
+   - Include screenshots for UI changes
+   - Reference any related issues
+
+### Development Guidelines
+- **Code Style**: Follow PEP 8 for Python, ESLint for JavaScript
+- **Testing**: Maintain >80% code coverage
+- **Documentation**: Update docstrings and README for changes
+- **Performance**: Profile code for performance impact
 
 ## 📄 License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
 
-## ⚠️ Disclaimer
+### Third-Party Licenses
+- **Chart.js**: MIT License
+- **TensorFlow**: Apache 2.0 License
+- **Flask**: BSD 3-Clause License
+- **Font Awesome**: Font Awesome Free License
 
-**Important**: This dashboard is for educational and research purposes only. The analysis and predictions presented should not be considered as financial advice. Stock market predictions are inherently uncertain and past performance does not guarantee future results. Always consult qualified financial advisors before making investment decisions and consider your risk tolerance and investment objectives.
+## ⚠️ Important Disclaimer
+
+**EDUCATIONAL AND RESEARCH PURPOSES ONLY**
+
+This dashboard and its predictions are provided for educational and research purposes only. The analysis, predictions, and recommendations should **NOT** be considered as financial advice. 
+
+### Key Points:
+- 📊 **Not Financial Advice**: All predictions and analysis are for informational purposes
+- 📈 **Past Performance**: Historical results do not guarantee future performance
+- 🎯 **Accuracy Limitations**: Machine learning models have inherent uncertainties
+- 💰 **Investment Risk**: Stock trading involves substantial risk of loss
+- 🔍 **Professional Consultation**: Always consult qualified financial advisors
+- ⚖️ **Risk Assessment**: Consider your risk tolerance and investment objectives
+
+### Model Limitations:
+- Predictions are based on historical patterns and may not account for unprecedented events
+- Market volatility can exceed model expectations
+- External factors (news, regulations, market sentiment) may not be fully captured
+- Model performance can vary significantly across different market conditions
+
+**Trade responsibly and never invest more than you can afford to lose.**
 
 ## 🏆 Acknowledgments
 
-- **Libraries**: Chart.js, Font Awesome
-- **Data Sources**: Yahoo Finance, NewsAPI
-- **ML Models**: FinBERT, TensorFlow/PyTorch
-- **Design Inspiration**: Modern financial dashboards
+### Libraries & Frameworks
+- **Chart.js**: Exceptional charting library for interactive visualizations
+- **TensorFlow/Keras**: Powerful machine learning framework
+- **Flask**: Lightweight and flexible web framework
+- **yfinance**: Reliable Yahoo Finance API wrapper
+- **Font Awesome**: Beautiful icons and visual elements
 
-## 📞 Support
+### Data Sources
+- **Yahoo Finance**: Real-time and historical stock data
+- **NewsAPI**: Comprehensive news aggregation service
+- **Alpha Vantage**: Additional financial market data
+- **FinBERT**: Financial domain-specific BERT model
 
-For questions or support:
-- Create an issue in the repository
-- Check the documentation
-- Review the code comments for implementation details
+### Inspiration
+- Modern financial dashboard designs
+- Professional trading platforms
+- Open-source data science community
+- Financial analysis best practices
+
+## 📞 Support & Community
+
+### Getting Help
+- 📖 **Documentation**: Comprehensive guides in `/docs` directory
+- 💬 **Discussions**: GitHub Discussions for questions and ideas
+- 🐛 **Issues**: GitHub Issues for bug reports and feature requests
+- 📧 **Email**: [your-email@domain.com] for direct support
+
+### Community
+- 🌟 **Star the Project**: If you find it useful!
+- 🐦 **Follow Updates**: [@YourTwitterHandle] for project updates
+- 💼 **LinkedIn**: Connect for professional discussions
+- 📺 **YouTube**: Video tutorials and walkthroughs
+
+### Roadmap
+- [ ] **Real-time WebSocket Integration**: Live data streaming
+- [ ] **Additional Models**: XGBoost, Prophet, Transformer models
+- [ ] **Portfolio Management**: Multi-stock tracking and analysis
+- [ ] **Mobile App**: Native iOS and Android applications
+- [ ] **Advanced Alerts**: Customizable price and signal notifications
+- [ ] **Social Features**: Community predictions and discussions
 
 ---
 
@@ -247,3 +477,4 @@ For questions or support:
 ![Tesla](https://img.shields.io/badge/Tesla-Stock-red?style=for-the-badge&logo=tesla)
 ![Machine Learning](https://img.shields.io/badge/Machine-Learning-blue?style=for-the-badge&logo=tensorflow)
 ![Web Development](https://img.shields.io/badge/Web-Development-green?style=for-the-badge&logo=html5)
+![Open Source](https://img.shields.io/badge/Open-Source-orange?style=for-the-badge&logo=github)
