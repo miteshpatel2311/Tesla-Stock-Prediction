@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tesla Stock Prediction Dashboard - Advanced Analytics</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns@3.0.0/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@2.0.1/dist/chartjs-plugin-zoom.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/date-fns@2.29.3/index.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios@1.6.0/dist/axios.min.js"></script>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📈</text></svg>">
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div id="loading-screen" class="loading-screen">
+        <div class="loading-content">
+            <div class="loading-spinner"></div>
+            <h2>Loading Tesla Stock Data</h2>
+            <p>Fetching real-time market data and initializing ML models...</p>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <i class="fas fa-chart-line"></i>
+                <h1>Tesla Stock Prediction Dashboard</h1>
+                <div class="live-indicator">
+                    <span class="live-dot"></span>
+                    <span>LIVE</span>
+                </div>
+            </div>
+            <nav class="nav">
+                <a href="#overview" class="nav-link active" data-section="overview">
+                    <i class="fas fa-chart-area"></i> Overview
+                </a>
+                <a href="#analysis" class="nav-link" data-section="analysis">
+                    <i class="fas fa-analytics"></i> Analysis
+                </a>
+                <a href="#models" class="nav-link" data-section="models">
+                    <i class="fas fa-robot"></i> Models
+                </a>
+                <a href="#predictions" class="nav-link" data-section="predictions">
+                    <i class="fas fa-crystal-ball"></i> Predictions
+                </a>
+                <a href="#data-tables" class="nav-link" data-section="data-tables">
+                    <i class="fas fa-table"></i> Data Tables
+                </a>
+                <a href="#insights" class="nav-link" data-section="insights">
+                    <i class="fas fa-lightbulb"></i> Insights
+                </a>
+            </nav>
+            <div class="header-controls">
+                <button id="refresh-data" class="btn-icon" title="Refresh Data">
+                    <i class="fas fa-sync-alt"></i>
+                </button>
+                <button id="export-data" class="btn-icon" title="Export Data">
+                    <i class="fas fa-download"></i>
+                </button>
+                <div class="last-updated">
+                    Last updated: <span id="last-updated-time">--:--</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main">
+        <!-- Overview Section -->
+        <section id="overview" class="section active">
+            <div class="container">
+                <div class="section-header">
+                    <h2><i class="fas fa-chart-area"></i> Real-Time Tesla Stock Overview</h2>
+                    <p>Live market data with advanced analytics and machine learning predictions</p>
+                </div>
+
+                <!-- Key Metrics Cards -->
+                <div class="metrics-grid">
+                    <div class="metric-card">
+                        <div class="metric-icon">
+                            <i class="fas fa-dollar-sign"></i>
+                        </div>
+                        <div class="metric-content">
+                            <h3>Current Price</h3>
+                            <div class="metric-value" id="current-price">Loading...</div>
+                            <div class="metric-change" id="price-change">--</div>
+                        </div>
+                        <div class="metric-sparkline">
+                            <canvas id="price-sparkline"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="metric-card">
+                        <div class="metric-icon">
+                            <i class="fas fa-chart-bar"></i>
+                        </div>
+                        <div class="metric-content">
+                            <h3>Volume</h3>
+                            <div class="metric-value" id="current-volume">Loading...</div>
+                            <div class="metric-subtitle">24h Trading Volume</div>
+                        </div>
+                    </div>
+
+                    <div class="metric-card">
+                        <div class="metric-icon">
+                            <i class="fas fa-mountain"></i>
+                        </div>
+                        <div class="metric-content">
+                            <h3>52W High/Low</h3>
+                            <div class="metric-value" id="high-low-range">Loading...</div>
+                            <div class="metric-subtitle">52-week range</div>
+                        </div>
+                    </div>
+
+                    <div class="metric-card">
+                        <div class="metric-icon">
+                            <i class="fas fa-building"></i>
+                        </div>
+                        <div class="metric-content">
+                            <h3>Market Cap</h3>
+                            <div class="metric-value" id="market-cap">Loading...</div>
+                            <div class="metric-subtitle">Total valuation</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Real-time Stock Chart -->
+                <div class="chart-container">
+                    <div class="chart-header">
+                        <h3><i class="fas fa-line-chart"></i> Tesla Stock Price & Technical Indicators</h3>
+                        <div class="chart-controls">
+                            <select id="chart-timeframe">
+                                <option value="1D">1 Day</option>
+                                <option value="5D">5 Days</option>
+                                <option value="1M">1 Month</option>
+                                <option value="3M" selected>3 Months</option>
+                                <option value="6M">6 Months</option>
+                                <option value="1Y">1 Year</option>
+                            </select>
+                            <div class="chart-type-toggle">
+                                <button class="chart-type-btn active" data-type="line">Line</button>
+                                <button class="chart-type-btn" data-type="candlestick">Candlestick</button>
+                            </div>
+                        </div>
+                    </div>
+                    <canvas id="main-stock-chart"></canvas>
+                </div>
+
+                <!-- Technical Indicators Grid -->
+                <div class="indicators-grid">
+                    <div class="indicator-card">
+                        <h4><i class="fas fa-tachometer-alt"></i> RSI (14)</h4>
+                        <div class="indicator-value" id="rsi-value">Loading...</div>
+                        <div class="indicator-bar">
+                            <div class="indicator-fill rsi-fill" id="rsi-fill"></div>
+                        </div>
+                        <div class="indicator-status" id="rsi-status">Neutral</div>
+                    </div>
+
+                    <div class="indicator-card">
+                        <h4><i class="fas fa-wave-square"></i> Volatility</h4>
+                        <div class="indicator-value" id="volatility-value">Loading...</div>
+                        <div class="indicator-bar">
+                            <div class="indicator-fill volatility-fill" id="volatility-fill"></div>
+                        </div>
+                        <div class="indicator-status" id="volatility-status">Normal</div>
+                    </div>
+
+                    <div class="indicator-card">
+                        <h4><i class="fas fa-arrows-alt-v"></i> Support/Resistance</h4>
+                        <div class="support-resistance">
+                            <div class="sr-level">
+                                <span>Resistance:</span>
+                                <span id="resistance-level">Loading...</span>
+                            </div>
+                            <div class="sr-level">
+                                <span>Support:</span>
+                                <span id="support-level">Loading...</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="indicator-card">
+                        <h4><i class="fas fa-signal"></i> Trading Signals</h4>
+                        <div id="trading-signals-container">
+                            <div class="signal-loading">Loading signals...</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Analysis Section -->
+        <section id="analysis" class="section">
+            <div class="container">
+                <div class="section-header">
+                    <h2><i class="fas fa-analytics"></i> Advanced Technical Analysis</h2>
+                    <p>Comprehensive market analysis with correlation studies and sentiment insights</p>
+                </div>
+
+                <div class="analysis-grid">
+                    <!-- Volume Analysis -->
+                    <div class="analysis-card">
+                        <h3><i class="fas fa-chart-bar"></i> Volume Analysis</h3>
+                        <canvas id="volume-chart"></canvas>
+                    </div>
+
+                    <!-- Correlation Matrix -->
+                    <div class="analysis-card">
+                        <h3><i class="fas fa-th"></i> Feature Correlation Matrix</h3>
+                        <div id="correlation-heatmap"></div>
+                    </div>
+
+                    <!-- News Sentiment -->
+                    <div class="analysis-card">
+                        <h3><i class="fas fa-newspaper"></i> News Sentiment Analysis</h3>
+                        <canvas id="sentiment-chart"></canvas>
+                        <div class="recent-news">
+                            <h4>Recent Headlines</h4>
+                            <div id="news-headlines"></div>
+                        </div>
+                    </div>
+
+                    <!-- Price Distribution -->
+                    <div class="analysis-card">
+                        <h3><i class="fas fa-chart-area"></i> Price Distribution</h3>
+                        <canvas id="distribution-chart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Models Section -->
+        <section id="models" class="section">
+            <div class="container">
+                <div class="section-header">
+                    <h2><i class="fas fa-robot"></i> Machine Learning Models</h2>
+                    <p>Compare performance of ARIMA, LSTM, and Hybrid prediction models</p>
+                </div>
+
+                <!-- Model Performance Comparison -->
+                <div class="model-performance-grid">
+                    <div class="performance-card">
+                        <h3>Model Performance Metrics</h3>
+                        <div class="performance-table-container">
+                            <table id="model-performance-table" class="performance-table">
+                                <thead>
+                                    <tr>
+                                        <th>Model</th>
+                                        <th>MSE</th>
+                                        <th>MAE</th>
+                                        <th>RMSE</th>
+                                        <th>R²</th>
+                                        <th>MAPE (%)</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr><td colspan="7" class="loading-cell">Loading model performance...</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="performance-card">
+                        <h3>Performance Comparison Chart</h3>
+                        <canvas id="model-comparison-chart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Model Architecture -->
+                <div class="model-architecture">
+                    <div class="architecture-card">
+                        <h3><i class="fas fa-sitemap"></i> LSTM Architecture</h3>
+                        <div class="architecture-details">
+                            <div class="layer">Input Layer: 60 timesteps × 7 features</div>
+                            <div class="layer">LSTM Layer 1: 100 units (return_sequences=True)</div>
+                            <div class="layer">Dropout: 0.2</div>
+                            <div class="layer">LSTM Layer 2: 100 units (return_sequences=True)</div>
+                            <div class="layer">Dropout: 0.2</div>
+                            <div class="layer">LSTM Layer 3: 50 units</div>
+                            <div class="layer">Dense Layer: 25 units</div>
+                            <div class="layer">Output Layer: 1 unit (price prediction)</div>
+                        </div>
+                    </div>
+
+                    <div class="architecture-card">
+                        <h3><i class="fas fa-wave-square"></i> ARIMA Configuration</h3>
+                        <div class="architecture-details">
+                            <div class="layer">Order: (5, 1, 0)</div>
+                            <div class="layer">Autoregressive terms: 5</div>
+                            <div class="layer">Differencing: 1</div>
+                            <div class="layer">Moving average terms: 0</div>
+                            <div class="layer">Seasonality: Not applied</div>
+                        </div>
+                    </div>
+
+                    <div class="architecture-card">
+                        <h3><i class="fas fa-layer-group"></i> Hybrid Model</h3>
+                        <div class="architecture-details">
+                            <div class="layer">LSTM Weight: 60%</div>
+                            <div class="layer">ARIMA Weight: 40%</div>
+                            <div class="layer">Ensemble Method: Weighted Average</div>
+                            <div class="layer">Optimization: Grid Search</div>
+                            <div class="layer">Validation: Time Series Split</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Predictions Section -->
+        <section id="predictions" class="section">
+            <div class="container">
+                <div class="section-header">
+                    <h2><i class="fas fa-crystal-ball"></i> Stock Price Predictions</h2>
+                    <p>AI-powered forecasts with confidence intervals and risk analysis</p>
+                </div>
+
+                <!-- Prediction Controls -->
+                <div class="prediction-controls">
+                    <div class="control-group">
+                        <label for="prediction-days">Forecast Period:</label>
+                        <select id="prediction-days">
+                            <option value="5" selected>5 Days</option>
+                            <option value="10">10 Days</option>
+                            <option value="15">15 Days</option>
+                            <option value="30">30 Days</option>
+                        </select>
+                    </div>
+                    <div class="control-group">
+                        <label for="prediction-model">Model:</label>
+                        <select id="prediction-model">
+                            <option value="hybrid" selected>Hybrid (Best)</option>
+                            <option value="lstm">LSTM Only</option>
+                            <option value="arima">ARIMA Only</option>
+                        </select>
+                    </div>
+                    <button id="generate-predictions" class="btn-primary">
+                        <i class="fas fa-magic"></i> Generate Predictions
+                    </button>
+                </div>
+
+                <!-- Prediction Chart -->
+                <div class="chart-container">
+                    <h3><i class="fas fa-chart-line"></i> Price Forecast with Confidence Bands</h3>
+                    <canvas id="prediction-chart"></canvas>
+                </div>
+
+                <!-- Prediction Table -->
+                <div class="prediction-table-container">
+                    <h3><i class="fas fa-table"></i> Detailed Predictions</h3>
+                    <table id="prediction-table" class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>LSTM</th>
+                                <th>ARIMA</th>
+                                <th>Hybrid</th>
+                                <th>Confidence</th>
+                                <th>Risk Level</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td colspan="6" class="loading-cell">Generate predictions to view data...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- Data Tables Section -->
+        <section id="data-tables" class="section">
+            <div class="container">
+                <div class="section-header">
+                    <h2><i class="fas fa-table"></i> Comprehensive Data Tables</h2>
+                    <p>Detailed historical data with advanced filtering and export capabilities</p>
+                </div>
+
+                <!-- Table Controls -->
+                <div class="table-controls">
+                    <div class="control-group">
+                        <label for="table-filter">Filter by:</label>
+                        <select id="table-filter">
+                            <option value="all">All Data</option>
+                            <option value="recent">Last 30 Days</option>
+                            <option value="high-volume">High Volume Days</option>
+                            <option value="volatile">High Volatility</option>
+                        </select>
+                    </div>
+                    <div class="control-group">
+                        <input type="text" id="search-input" placeholder="Search data...">
+                    </div>
+                    <div class="control-group">
+                        <button id="export-csv" class="btn-secondary">
+                            <i class="fas fa-file-csv"></i> Export CSV
+                        </button>
+                        <button id="export-json" class="btn-secondary">
+                            <i class="fas fa-file-code"></i> Export JSON
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Historical Data Table -->
+                <div class="data-table-container">
+                    <table id="historical-data-table" class="data-table sortable">
+                        <thead>
+                            <tr>
+                                <th class="sortable" data-column="date">Date <i class="fas fa-sort"></i></th>
+                                <th class="sortable" data-column="open">Open <i class="fas fa-sort"></i></th>
+                                <th class="sortable" data-column="high">High <i class="fas fa-sort"></i></th>
+                                <th class="sortable" data-column="low">Low <i class="fas fa-sort"></i></th>
+                                <th class="sortable" data-column="close">Close <i class="fas fa-sort"></i></th>
+                                <th class="sortable" data-column="volume">Volume <i class="fas fa-sort"></i></th>
+                                <th class="sortable" data-column="rsi">RSI <i class="fas fa-sort"></i></th>
+                                <th class="sortable" data-column="volatility">Volatility <i class="fas fa-sort"></i></th>
+                                <th>Change %</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td colspan="9" class="loading-cell">Loading historical data...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Pagination -->
+                <div class="pagination">
+                    <button id="prev-page" class="btn-pagination" disabled>
+                        <i class="fas fa-chevron-left"></i> Previous
+                    </button>
+                    <span id="page-info">Page 1 of 1</span>
+                    <button id="next-page" class="btn-pagination" disabled>
+                        Next <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Insights Section -->
+        <section id="insights" class="section">
+            <div class="container">
+                <div class="section-header">
+                    <h2><i class="fas fa-lightbulb"></i> AI-Generated Insights & Recommendations</h2>
+                    <p>Intelligent analysis and actionable trading insights based on current market conditions</p>
+                </div>
+
+                <div class="insights-grid">
+                    <!-- Market Summary -->
+                    <div class="insight-card">
+                        <h3><i class="fas fa-chart-line"></i> Market Summary</h3>
+                        <div id="market-summary" class="insight-content">
+                            <div class="loading-insight">Analyzing market conditions...</div>
+                        </div>
+                    </div>
+
+                    <!-- Trading Recommendations -->
+                    <div class="insight-card">
+                        <h3><i class="fas fa-bullseye"></i> Trading Recommendations</h3>
+                        <div id="trading-recommendations" class="insight-content">
+                            <div class="loading-insight">Generating recommendations...</div>
+                        </div>
+                    </div>
+
+                    <!-- Risk Analysis -->
+                    <div class="insight-card">
+                        <h3><i class="fas fa-shield-alt"></i> Risk Analysis</h3>
+                        <div id="risk-analysis" class="insight-content">
+                            <div class="loading-insight">Calculating risk metrics...</div>
+                        </div>
+                    </div>
+
+                    <!-- Key Levels -->
+                    <div class="insight-card">
+                        <h3><i class="fas fa-crosshairs"></i> Key Price Levels</h3>
+                        <div id="key-levels" class="insight-content">
+                            <div class="loading-insight">Identifying key levels...</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Disclaimer -->
+                <div class="disclaimer">
+                    <h4><i class="fas fa-exclamation-triangle"></i> Important Disclaimer</h4>
+                    <p>This dashboard is for educational and research purposes only. The analysis and predictions presented should not be considered as financial advice. Stock market predictions are inherently uncertain and past performance does not guarantee future results. Always consult qualified financial advisors before making investment decisions and consider your risk tolerance and investment objectives.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Tesla Stock Dashboard</h4>
+                    <p>Advanced AI-powered stock analysis and prediction platform</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Features</h4>
+                    <ul>
+                        <li>Real-time data</li>
+                        <li>ML predictions</li>
+                        <li>Technical analysis</li>
+                        <li>Risk assessment</li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Data Sources</h4>
+                    <ul>
+                        <li>Yahoo Finance API</li>
+                        <li>Real-time market data</li>
+                        <li>News sentiment analysis</li>
+                        <li>Technical indicators</li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Technology</h4>
+                    <ul>
+                        <li>Python Flask API</li>
+                        <li>TensorFlow LSTM</li>
+                        <li>ARIMA Models</li>
+                        <li>Chart.js Visualization</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Tesla Stock Prediction Dashboard. Built with ❤️ for the data science community.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
