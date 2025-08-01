@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tesla Dashboard Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #0f0f0f;
+            color: white;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .metric-card {
+            background: #1e1e1e;
+            border: 1px solid #333;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 10px 0;
+            display: inline-block;
+            width: 200px;
+            text-align: center;
+        }
+        .metric-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #00d4ff;
+        }
+        canvas {
+            background: #1e1e1e;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>🚗⚡ Tesla Stock Prediction Dashboard Test</h1>
+        
+        <div class="metric-card">
+            <h3>Current Price</h3>
+            <div class="metric-value">$321.20</div>
+        </div>
+        
+        <div class="metric-card">
+            <h3>Best Model</h3>
+            <div class="metric-value">HYBRID</div>
+        </div>
+        
+        <div class="metric-card">
+            <h3>Accuracy</h3>
+            <div class="metric-value">96.7%</div>
+        </div>
+        
+        <canvas id="test-chart" width="400" height="200"></canvas>
+        
+    </div>
+
+    <script>
+        console.log('🚀 Initializing test dashboard...');
+        
+        // Test Chart
+        const ctx = document.getElementById('test-chart');
+        if (ctx) {
+            const chart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                    datasets: [{
+                        label: 'Tesla Stock Price',
+                        data: [280, 290, 310, 320, 315, 321],
+                        borderColor: '#00d4ff',
+                        backgroundColor: 'rgba(0, 212, 255, 0.1)',
+                        borderWidth: 3,
+                        fill: true,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            labels: {
+                                color: '#ffffff'
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            ticks: { color: '#ffffff' },
+                            grid: { color: '#333333' }
+                        },
+                        y: {
+                            ticks: { color: '#ffffff' },
+                            grid: { color: '#333333' }
+                        }
+                    }
+                }
+            });
+            console.log('✅ Test chart created successfully!');
+        } else {
+            console.error('❌ Canvas element not found');
+        }
+        
+        console.log('✅ Test dashboard loaded successfully!');
+    </script>
+</body>
+</html>
